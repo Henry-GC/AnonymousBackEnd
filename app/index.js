@@ -2,11 +2,11 @@ const express = require('express');
 const cors = require('cors');
 const database = require("../database")
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 
 // Permitir solicitudes Cors
-allowedOrigin = ["https://anonymouspc.netlify.app","http://localhost:3000"]
+allowedOrigin = ["https://anonymouspc.netlify.app","http://localhost:3000","https://anonymousbackend.onrender.com"]
 app.use(cors({
   origin: allowedOrigin,
 }));
