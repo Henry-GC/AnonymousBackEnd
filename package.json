@@ -2,16 +2,25 @@
   "name": "backend-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon --exec node app/index.js",
+    "start": "nodemon --exec node app/index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Henry-GC",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.18.3",
+    "jsonwebtoken": "^9.0.2",
+    "mysql": "^2.18.1",
     "promise-mysql": "^5.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
   }
 }

@@ -1,22 +1,24 @@
 const express = require('express');
 const cors = require('cors');
-const database = require("./database")
+const database = require("../database")
 const app = express();
 const PORT = 5000;
 
 
-// Permitir solicitudes desde http://localhost:3000
+// Permitir solicitudes Cors
+allowedOrigin = ["https://anonymouspc.netlify.app","http://localhost:3000"]
 app.use(cors({
-  origin: 'https://anonymouspc.netlify.app'
+  origin: allowedOrigin,
 }));
+
 // Middleware para manejar datos JSON
 app.use(express.json());
 
 
 // Ruta para manejar peticiones GET del formulario
-app.get('/base', async (req, res) => {
+app.get('/api/productos', async (req, res) => {
   const connection = await database.getConection()
-  const result = await connection.query("SELECT * FROM productos")
+  const result = await connection.query("SELECT * FROM PRODUCTOS")
   res.status(200).json(result);
 });
 
@@ -32,5 +34,5 @@ app.get('/base', async (req, res) => {
 
 // Iniciar el servidor
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
