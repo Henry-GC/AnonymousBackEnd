@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 5000;
 
 
 // Permitir solicitudes Cors
-allowedOrigin = ["https://anonymouspc.netlify.app","http://localhost:3000","https://anonymousbackend.onrender.com"]
+allowedOrigin = ["https://anonymouspc.netlify.app","http://localhost:3000"]
 app.use(cors({
   origin: allowedOrigin,
 }));
