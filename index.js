@@ -16,6 +16,11 @@ app.use(express.json());
 
 
 // Ruta para manejar peticiones GET del formulario
+
+app.get("/", async (req, res)=>{
+  res.status(200).send("PRUEBA SATISFACTORIA")
+})
+
 app.get('/api/productos', async (req, res) => {
   const connection = await database.getConection()
   const result = await connection.query("SELECT * FROM PRODUCTOS")

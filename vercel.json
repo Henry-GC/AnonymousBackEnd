@@ -6,7 +6,9 @@
         }
     ],
     "routes": [
-        { "src": "/api/productos", "dest": "index.js" },
-        { "src": "/(.*)", "dest": "index.js" }
+        { 
+            "src": "/(.*)",
+            "dest": "index.js"
+        }
     ]
 }
