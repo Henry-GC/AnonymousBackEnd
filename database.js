@@ -5,7 +5,7 @@ const connection = mysql.createConnection({
     port: "3306",
     user: "root",
     password: "Whosyourdaddy1.",
-    database: "anonymouspc"
+    database: "anonymouspc",
 })
 
 const getConection = async ()=> await connection
