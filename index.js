@@ -5,8 +5,10 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Permitir solicitudes CORS
-const allowedOrigin = ["https://anonymouspc.netlify.app", "http://localhost:3000"];
-app.use(cors());
+const allowedOrigins = ["https://anonymouspc.netlify.app/", "http://localhost:3000"];
+app.use(cors({
+    origin: allowedOrigins
+  }));
 
 // Middleware para manejar datos JSON
 app.use(express.json());
