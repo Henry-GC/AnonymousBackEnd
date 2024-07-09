@@ -12,8 +12,12 @@ app.use(cors());
 app.use(express.json());
 
 // Ruta para manejar peticiones GET del formulario
-app.get("/prueba", async (req, res) => {
-  res.status(200).send("PRUEBA SATISFACTORIA");
+app.get('/prueba', async (req, res) => {
+  try {
+    res.status(200).json({ mensaje: 'PRUEBA SATISFACTORIA' });
+  } catch (error) {
+    res.status(500).json({ error: 'Ocurrió un error en el servidor' });
+  }
 });
 
 app.get('/api/productos', async (req, res) => {
