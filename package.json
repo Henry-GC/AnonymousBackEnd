@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "dev": "nodemon --exec node index.js",
     "start": "node index.js"
@@ -18,6 +19,7 @@
     "express": "^4.18.3",
     "jsonwebtoken": "^9.0.2",
     "mysql": "^2.18.1",
+    "mysql2": "^3.10.2",
     "promise-mysql": "^5.2.0"
   },
   "devDependencies": {

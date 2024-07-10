@@ -1,8 +1,8 @@
-const express = require('express');
-const cors = require('cors');
-const database = require("./database");
-const app = express();
-const PORT = process.env.PORT || 5000;
+import express from 'express';
+import cors from 'cors';
+import { connection } from './database.js';
+import { PORT } from './config.js';
+const app = express ()
 
 // Permitir solicitudes CORS
 // const allowedOrigins = ["https://anonymouspc.netlify.app", "http://localhost:3000"];
@@ -21,103 +21,33 @@ app.get('/prueba', async (req, res) => {
 });
 
 app.get('/api/productos', async (req, res) => {
-  const connection = await database.getConection();
   const result = await connection.query("SELECT * FROM PRODUCTOS");
   const productos = result.map(producto => ({
     ...producto,
-    price_prod: producto.price_prod.toFixed(2)
+    price_prod: parseFloat(producto.price_prod).toFixed(2)
   }));
   console.log(productos);
   res.status(200).json(productos);
 });
 
-app.get('/api/procesadores', async (req, res) => {
-  const connection = await database.getConection();
-  const result = await connection.query("SELECT * FROM PRODUCTOS WHERE type_prod = 'CPU'");
+const search = async (req, res, type) => {
+  const result = await connection.query(`SELECT * FROM PRODUCTOS WHERE type_prod = ?`,[type]);
   const productos = result.map(producto => ({
     ...producto,
-    price_prod: producto.price_prod.toFixed(2)
+    price_prod: parseFloat(producto.price_prod).toFixed(2)
   }));
   console.log(productos);
   res.status(200).json(productos);
-});
+};
 
-app.get('/api/mobo', async (req, res) => {
-  const connection = await database.getConection();
-  const result = await connection.query("SELECT * FROM PRODUCTOS WHERE type_prod = 'MBO'");
-  const productos = result.map(producto => ({
-    ...producto,
-    price_prod: producto.price_prod.toFixed(2)
-  }));
-  console.log(productos);
-  res.status(200).json(productos);
-});
-
-app.get('/api/gpu', async (req, res) => {
-  const connection = await database.getConection();
-  const result = await connection.query("SELECT * FROM PRODUCTOS WHERE type_prod = 'GPU'");
-  const productos = result.map(producto => ({
-    ...producto,
-    price_prod: producto.price_prod.toFixed(2)
-  }));
-  console.log(productos);
-  res.status(200).json(productos);
-});
-
-app.get('/api/ram', async (req, res) => {
-  const connection = await database.getConection();
-  const result = await connection.query("SELECT * FROM PRODUCTOS WHERE type_prod = 'RAM'");
-  const productos = result.map(producto => ({
-    ...producto,
-    price_prod: producto.price_prod.toFixed(2)
-  }));
-  console.log(productos);
-  res.status(200).json(productos);
-});
-
-app.get('/api/almacenamiento', async (req, res) => {
-  const connection = await database.getConection();
-  const result = await connection.query("SELECT * FROM PRODUCTOS WHERE type_prod = 'STG'");
-  const productos = result.map(producto => ({
-    ...producto,
-    price_prod: producto.price_prod.toFixed(2)
-  }));
-  console.log(productos);
-  res.status(200).json(productos);
-});
-
-app.get('/api/fuentes', async (req, res) => {
-  const connection = await database.getConection();
-  const result = await connection.query("SELECT * FROM PRODUCTOS WHERE type_prod = 'PSU'");
-  const productos = result.map(producto => ({
-    ...producto,
-    price_prod: producto.price_prod.toFixed(2)
-  }));
-  console.log(productos);
-  res.status(200).json(productos);
-});
-
-app.get('/api/case', async (req, res) => {
-  const connection = await database.getConection();
-  const result = await connection.query("SELECT * FROM PRODUCTOS WHERE type_prod = 'CASE'");
-  const productos = result.map(producto => ({
-    ...producto,
-    price_prod: producto.price_prod.toFixed(2)
-  }));
-  console.log(productos);
-  res.status(200).json(productos);
-});
-
-app.get('/api/acc', async (req, res) => {
-  const connection = await database.getConection();
-  const result = await connection.query("SELECT * FROM PRODUCTOS WHERE type_prod = 'ACC'");
-  const productos = result.map(producto => ({
-    ...producto,
-    price_prod: producto.price_prod.toFixed(2)
-  }));
-  console.log(productos);
-  res.status(200).json(productos);
-});
+app.get("/api/procesadores", (req, res)=>{search(req, res, "CPU")})
+app.get('/api/mobo', (req, res)=>{search(req, res, "MBO")})
+app.get('/api/gpu', (req, res)=>{search(req, res, "GPU")})
+app.get('/api/ram', (req, res)=>{search(req, res, "RAM")})
+app.get('/api/almacenamiento', (req, res)=>{search(req, res, "STG")})
+app.get('/api/fuentes', (req, res)=>{search(req, res, "PSU")})
+app.get('/api/case', (req, res)=>{search(req, res, "CASE")})
+app.get('/api/acc', (req, res)=>{search(req, res, "ACC")})
 
 // Ruta para manejar peticiones POST del formulario
 app.post('/api/login', async (req, res) => {
@@ -127,7 +57,6 @@ app.post('/api/login', async (req, res) => {
     return res.status(400).json({ message: "Usuario y contraseña son requeridos" });
   }
 
-  const connection = await database.getConection();
   try {
     const result = await connection.query("SELECT * FROM USUARIOS WHERE usuario = ? AND pass = ?", [user, pass]);
     const finaLog = [result]
