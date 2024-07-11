@@ -6,8 +6,10 @@ import { PORT } from './config.js';
 const app = express ()
 
 // Permitir solicitudes CORS
-// const allowedOrigins = ["https://anonymouspc.netlify.app", "http://localhost:3000"];
-app.use(cors());
+const allowedOrigins = ["https://anonymouspc.netlify.app", "http://localhost:3000"];
+app.use(cors({
+  origin: allowedOrigins
+}));
 
 // Middleware para manejar datos JSON
 app.use(express.json());
@@ -24,7 +26,6 @@ app.get('/prueba', async (req, res) => {
 app.get('/api/productos', async (req, res) => {
   try {
     const [result] = await connection.query("SELECT * FROM productos");
-    console.log(result);
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ error: error });
@@ -34,7 +35,6 @@ app.get('/api/productos', async (req, res) => {
 const search = async (req, res, type) => {
   try {
     const [result] = await connection.query(`SELECT * FROM productos WHERE type_prod = ?`,[type]);
-    console.log(result);
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ error: error });
