@@ -12,5 +12,6 @@ export const connection = mysql.createPool({
     port: DB_PORT,
     user: DB_USER,
     password: DB_PASSWORD,
-    database: DB_NAME
+    database: DB_NAME,
+    decimalNumbers: true
 })

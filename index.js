@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { connection } from './database.js';
 import { PORT } from './config.js';
+
 const app = express ()
 
 // Permitir solicitudes CORS
@@ -21,23 +22,23 @@ app.get('/prueba', async (req, res) => {
 });
 
 app.get('/api/productos', async (req, res) => {
-  const result = await connection.query("SELECT * FROM PRODUCTOS");
-  const productos = result.map(producto => ({
-    ...producto,
-    price_prod: parseFloat(producto.price_prod).toFixed(2)
-  }));
-  console.log(productos);
-  res.status(200).json(productos);
+  try {
+    const [result] = await connection.query("SELECT * FROM productos");
+    console.log(result);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
 });
 
 const search = async (req, res, type) => {
-  const result = await connection.query(`SELECT * FROM PRODUCTOS WHERE type_prod = ?`,[type]);
-  const productos = result.map(producto => ({
-    ...producto,
-    price_prod: parseFloat(producto.price_prod).toFixed(2)
-  }));
-  console.log(productos);
-  res.status(200).json(productos);
+  try {
+    const [result] = await connection.query(`SELECT * FROM productos WHERE type_prod = ?`,[type]);
+    console.log(result);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
 };
 
 app.get("/api/procesadores", (req, res)=>{search(req, res, "CPU")})
@@ -58,7 +59,7 @@ app.post('/api/login', async (req, res) => {
   }
 
   try {
-    const result = await connection.query("SELECT * FROM USUARIOS WHERE usuario = ? AND pass = ?", [user, pass]);
+    const result = await connection.query("SELECT * FROM usuarios WHERE usuario = ? AND pass = ?", [user, pass]);
     const finaLog = [result]
 
     if (finaLog.length > 0) {
