@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { connection } from './database.js';
 import { PORT } from './config.js';
+import data from './items.json' assert { type: 'json' };
 
 const app = express ()
 
@@ -25,44 +26,27 @@ app.get('/prueba', async (req, res) => {
 
 app.get('/api/productos', async (req, res) => {
   try {
-    const [result] = await connection.query("SELECT * FROM productos");
-    res.status(200).json(result);
+    // const [result] = await connection.query("SELECT * FROM productos");
+    res.status(200).json(data);
   } catch (error) {
     res.status(500).json({ error: error });
   }
 });
 
-const search = async (req, res, type) => {
-  try {
-    const [result] = await connection.query(`SELECT * FROM productos WHERE type_prod = ?`,[type]);
-    res.status(200).json(result);
-  } catch (error) {
-    res.status(500).json({ error: error });
-  }
-};
-
-app.get("/api/procesadores", (req, res)=>{search(req, res, "CPU")})
-app.get('/api/mobo', (req, res)=>{search(req, res, "MBO")})
-app.get('/api/gpu', (req, res)=>{search(req, res, "GPU")})
-app.get('/api/ram', (req, res)=>{search(req, res, "RAM")})
-app.get('/api/almacenamiento', (req, res)=>{search(req, res, "STG")})
-app.get('/api/fuentes', (req, res)=>{search(req, res, "PSU")})
-app.get('/api/case', (req, res)=>{search(req, res, "CASE")})
-app.get('/api/acc', (req, res)=>{search(req, res, "ACC")})
-
 // Ruta para manejar peticiones POST del formulario
 app.post('/api/login', async (req, res) => {
   const { user, pass } = req.body;
+  console.log(user,pass);
 
   if (!user || !pass) {
     return res.status(400).json({ message: "Usuario y contraseña son requeridos" });
   }
 
   try {
-    const result = await connection.query("SELECT * FROM usuarios WHERE usuario = ? AND pass = ?", [user, pass]);
-    const finaLog = [result]
+    const [result] = await connection.query("SELECT * FROM usuarios WHERE username = ? AND password = ?", [user, pass]);
+    console.log(result)
 
-    if (finaLog.length > 0) {
+    if (result.length > 0) {
       // Usuario y contraseña correctos
       res.status(200).json({ message: "Inicio de sesión exitoso" });
     } else {

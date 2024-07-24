@@ -1,0 +1,302 @@
+[
+    {
+       "id_prod":4,
+       "name_prod":"ASUS ROG STRIX B550-F",
+       "description_prod":"Placa madre para gaming con chipset B550, compatible con AMD Ryzen",
+       "price_prod":180.00,
+       "destacado":1,
+       "stock_prod":50,
+       "type_prod":"Placa Madre",
+       "brand_prod":"ASUS"
+    },
+    {
+       "id_prod":5,
+       "name_prod":"GIGABYTE Z690 AORUS PRO",
+       "description_prod":"Placa madre para gaming con chipset Z690, compatible con Intel de 12ª generación",
+       "price_prod":250.00,
+       "destacado":0,
+       "stock_prod":30,
+       "type_prod":"Placa Madre",
+       "brand_prod":"GIGABYTE"
+    },
+    {
+       "id_prod":6,
+       "name_prod":"MSI B450 TOMAHAWK MAX II",
+       "description_prod":"Placa madre ATX con chipset B450, compatible con AMD Ryzen",
+       "price_prod":120.00,
+       "destacado":1,
+       "stock_prod":75,
+       "type_prod":"Placa Madre",
+       "brand_prod":"MSI"
+    },
+    {
+       "id_prod":7,
+       "name_prod":"Corsair Vengeance LPX 16GB (2x8GB) DDR4",
+       "description_prod":"Memoria RAM de alto rendimiento, 3200MHz",
+       "price_prod":80.00,
+       "destacado":0,
+       "stock_prod":100,
+       "type_prod":"Memoria RAM",
+       "brand_prod":"Corsair"
+    },
+    {
+       "id_prod":8,
+       "name_prod":"G.Skill Trident Z RGB 32GB (2x16GB) DDR4",
+       "description_prod":"Memoria RAM con iluminación RGB, 3600MHz",
+       "price_prod":180.00,
+       "destacado":1,
+       "stock_prod":60,
+       "type_prod":"Memoria RAM",
+       "brand_prod":"G.Skill"
+    },
+    {
+       "id_prod":9,
+       "name_prod":"Kingston HyperX Fury 16GB (2x8GB) DDR4",
+       "description_prod":"Memoria RAM de alta velocidad, 3200MHz",
+       "price_prod":75.00,
+       "destacado":0,
+       "stock_prod":80,
+       "type_prod":"Memoria RAM",
+       "brand_prod":"Kingston"
+    },
+    {
+       "id_prod":10,
+       "name_prod":"NVIDIA GeForce RTX 3080 10GB",
+       "description_prod":"Tarjeta de video de alto rendimiento para gaming y productividad",
+       "price_prod":800.00,
+       "destacado":1,
+       "stock_prod":25,
+       "type_prod":"Tarjeta de Video",
+       "brand_prod":"NVIDIA"
+    },
+    {
+       "id_prod":11,
+       "name_prod":"AMD Radeon RX 6800 XT 16GB",
+       "description_prod":"Tarjeta de video de alto rendimiento para gaming y creatividad",
+       "price_prod":700.00,
+       "destacado":0,
+       "stock_prod":30,
+       "type_prod":"Tarjeta de Video",
+       "brand_prod":"AMD"
+    },
+    {
+       "id_prod":12,
+       "name_prod":"ASUS TUF Gaming GeForce GTX 1660 SUPER 6GB",
+       "description_prod":"Tarjeta de video para gaming con buen rendimiento y precio accesible",
+       "price_prod":300.00,
+       "destacado":1,
+       "stock_prod":40,
+       "type_prod":"Tarjeta de Video",
+       "brand_prod":"ASUS"
+    },
+    {
+       "id_prod":13,
+       "name_prod":"NZXT H510 Elite",
+       "description_prod":"Carcasa de PC con panel frontal y lateral de vidrio templado",
+       "price_prod":150.00,
+       "destacado":1,
+       "stock_prod":45,
+       "type_prod":"Carcasa",
+       "brand_prod":"NZXT"
+    },
+    {
+       "id_prod":14,
+       "name_prod":"Corsair 4000D Airflow",
+       "description_prod":"Carcasa de PC con diseño de alto flujo de aire",
+       "price_prod":100.00,
+       "destacado":0,
+       "stock_prod":50,
+       "type_prod":"Carcasa",
+       "brand_prod":"Corsair"
+    },
+    {
+       "id_prod":15,
+       "name_prod":"Cooler Master MasterBox Q300L",
+       "description_prod":"Carcasa compacta de PC con excelente ventilación",
+       "price_prod":60.00,
+       "destacado":1,
+       "stock_prod":80,
+       "type_prod":"Carcasa",
+       "brand_prod":"Cooler Master"
+    },
+    {
+       "id_prod":16,
+       "name_prod":"EVGA SuperNOVA 750 G5",
+       "description_prod":"Fuente de poder de 750W con certificación 80 Plus Gold",
+       "price_prod":120.00,
+       "destacado":1,
+       "stock_prod":70,
+       "type_prod":"Fuente de Poder",
+       "brand_prod":"EVGA"
+    },
+    {
+       "id_prod":17,
+       "name_prod":"Corsair RM850x",
+       "description_prod":"Fuente de poder modular de 850W con certificación 80 Plus Gold",
+       "price_prod":140.00,
+       "destacado":0,
+       "stock_prod":60,
+       "type_prod":"Fuente de Poder",
+       "brand_prod":"Corsair"
+    },
+    {
+       "id_prod":18,
+       "name_prod":"Seasonic Focus GX-650",
+       "description_prod":"Fuente de poder de 650W con certificación 80 Plus Gold",
+       "price_prod":110.00,
+       "destacado":1,
+       "stock_prod":65,
+       "type_prod":"Fuente de Poder",
+       "brand_prod":"Seasonic"
+    },
+    {
+       "id_prod":19,
+       "name_prod":"Samsung 970 EVO Plus 1TB",
+       "description_prod":"SSD NVMe de alta velocidad con capacidad de 1TB",
+       "price_prod":150.00,
+       "destacado":1,
+       "stock_prod":90,
+       "type_prod":"SSD",
+       "brand_prod":"Samsung"
+    },
+    {
+       "id_prod":20,
+       "name_prod":"Western Digital Blue SN550 500GB",
+       "description_prod":"SSD NVMe de alto rendimiento con capacidad de 500GB",
+       "price_prod":60.00,
+       "destacado":0,
+       "stock_prod":120,
+       "type_prod":"SSD",
+       "brand_prod":"Western Digital"
+    },
+    {
+       "id_prod":21,
+       "name_prod":"Crucial MX500 1TB",
+       "description_prod":"SSD SATA de alto rendimiento con capacidad de 1TB",
+       "price_prod":100.00,
+       "destacado":1,
+       "stock_prod":85,
+       "type_prod":"SSD",
+       "brand_prod":"Crucial"
+    },
+    {
+       "id_prod":22,
+       "name_prod":"Intel Core i9 11900K 8C/16H",
+       "description_prod":"Procesador de alto rendimiento para gaming y productividad",
+       "price_prod":450.00,
+       "destacado":1,
+       "stock_prod":50,
+       "type_prod":"CPU",
+       "brand_prod":"INTEL"
+    },
+    {
+       "id_prod":23,
+       "name_prod":"AMD Ryzen 9 5900X 12C/24H",
+       "description_prod":"Procesador de alto rendimiento para gaming y tareas intensivas",
+       "price_prod":500.00,
+       "destacado":0,
+       "stock_prod":45,
+       "type_prod":"CPU",
+       "brand_prod":"AMD"
+    },
+    {
+       "id_prod":24,
+       "name_prod":"GIGABYTE A520M S2H",
+       "description_prod":"Placa madre económica con chipset A520, compatible con AMD Ryzen",
+       "price_prod":60.00,
+       "destacado":1,
+       "stock_prod":75,
+       "type_prod":"Placa Madre",
+       "brand_prod":"GIGABYTE"
+    },
+    {
+       "id_prod":25,
+       "name_prod":"Corsair Dominator Platinum RGB 32GB (2x16GB) DDR4",
+       "description_prod":"Memoria RAM de alta gama con iluminación RGB, 3200MHz",
+       "price_prod":200.00,
+       "destacado":0,
+       "stock_prod":40,
+       "type_prod":"Memoria RAM",
+       "brand_prod":"Corsair"
+    },
+    {
+       "id_prod":26,
+       "name_prod":"MSI MAG B550 TOMAHAWK",
+       "description_prod":"Placa madre con chipset B550, compatible con AMD Ryzen",
+       "price_prod":150.00,
+       "destacado":1,
+       "stock_prod":55,
+       "type_prod":"Placa Madre",
+       "brand_prod":"MSI"
+    },
+    {
+       "id_prod":27,
+       "name_prod":"HyperX Predator 16GB (2x8GB) DDR4",
+       "description_prod":"Memoria RAM de alta velocidad, 3200MHz",
+       "price_prod":90.00,
+       "destacado":0,
+       "stock_prod":95,
+       "type_prod":"Memoria RAM",
+       "brand_prod":"HyperX"
+    },
+    {
+       "id_prod":28,
+       "name_prod":"MSI GeForce RTX 3070 8GB",
+       "description_prod":"Tarjeta de video de alto rendimiento para gaming y productividad",
+       "price_prod":700.00,
+       "destacado":1,
+       "stock_prod":35,
+       "type_prod":"Tarjeta de Video",
+       "brand_prod":"MSI"
+    },
+    {
+       "id_prod":29,
+       "name_prod":"GIGABYTE GeForce GTX 1650 OC 4GB",
+       "description_prod":"Tarjeta de video de entrada con buen rendimiento para gaming",
+       "price_prod":200.00,
+       "destacado":0,
+       "stock_prod":65,
+       "type_prod":"Tarjeta de Video",
+       "brand_prod":"GIGABYTE"
+    },
+    {
+       "id_prod":30,
+       "name_prod":"Thermaltake Versa H18",
+       "description_prod":"Carcasa compacta de PC con buena ventilación",
+       "price_prod":50.00,
+       "destacado":1,
+       "stock_prod":100,
+       "type_prod":"Carcasa",
+       "brand_prod":"Thermaltake"
+    },
+    {
+       "id_prod":31,
+       "name_prod":"Fractal Design Meshify C",
+       "description_prod":"Carcasa de PC con panel frontal de malla para mejor ventilación",
+       "price_prod":90.00,
+       "destacado":0,
+       "stock_prod":70,
+       "type_prod":"Carcasa",
+       "brand_prod":"Fractal Design"
+    },
+    {
+       "id_prod":32,
+       "name_prod":"Be Quiet! Straight Power 11 750W",
+       "description_prod":"Fuente de poder silenciosa de 750W con certificación 80 Plus Gold",
+       "price_prod":130.00,
+       "destacado":1,
+       "stock_prod":60,
+       "type_prod":"Fuente de Poder",
+       "brand_prod":"Be Quiet!"
+    },
+    {
+       "id_prod":33,
+       "name_prod":"ADATA XPG SX8200 Pro 1TB",
+       "description_prod":"SSD NVMe de alto rendimiento con capacidad de 1TB",
+       "price_prod":140.00,
+       "destacado":0,
+       "stock_prod":85,
+       "type_prod":"SSD",
+       "brand_prod":"ADATA"
+    }
+ ]
