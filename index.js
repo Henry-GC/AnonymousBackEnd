@@ -1,8 +1,9 @@
 import express from 'express';
 import cors from 'cors';
-import { connection } from './database.js';
-import { PORT } from './config.js';
-import data from './items.json' assert { type: 'json' };
+import { connection } from './utils/database.js';
+import { PORT } from './utils/config.js';
+import data from './utils/items.json' assert { type: 'json' };
+import gamerBuilds from './utils/gamerBuilds.json' assert { type: 'json' };
 
 const app = express ()
 
@@ -21,6 +22,15 @@ app.get('/prueba', async (req, res) => {
     res.status(200).json({ mensaje: 'PRUEBA SATISFACTORIA' });
   } catch (error) {
     res.status(500).json({ error: 'Ocurrió un error en el servidor' });
+  }
+});
+
+app.get('/api/gamerBuilds', async (req, res) => {
+  try {
+    // const [result] = await connection.query("SELECT * FROM productos");
+    res.status(200).json(gamerBuilds);
+  } catch (error) {
+    res.status(500).json({ error: error });
   }
 });
 
