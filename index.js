@@ -69,6 +69,11 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
+app.post('/api/register', async (req,res)=>{
+  const body = req.body
+  return res.status(200).json({mensaje:"registrado"})
+})
+
 // Iniciar el servidor
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

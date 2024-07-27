@@ -1,16 +1,52 @@
 [
-    {
-       "id_prod":4,
-       "name_prod":"ASUS ROG STRIX B550-F",
+
+      {
+         "id_prod":1,
+         "img_prod":"",
+         "name_prod":"WAR HORSE",
+         "description_prod":"MBO para gaming con chipset B550, compatible con AMD Ryzen",
+         "price_prod":600.00,
+         "destacado":1,
+         "stock_prod":50,
+         "type_prod":"BUILD",
+         "brand_prod":"ASUS"
+      },
+      {
+         "id_prod":2,
+         "img_prod":"",
+         "name_prod":"SOUL REAPER",
+         "description_prod":"MBO para gaming con chipset B550, compatible con AMD Ryzen",
+         "price_prod":600.00,
+         "destacado":1,
+         "stock_prod":50,
+         "type_prod":"BUILD",
+         "brand_prod":"ASUS"
+      },
+      {
+       "id_prod":3,
+       "img_prod":"",
+       "name_prod":"NIGHT FURY",
        "description_prod":"MBO para gaming con chipset B550, compatible con AMD Ryzen",
-       "price_prod":180.00,
+       "price_prod":750.00,
        "destacado":1,
        "stock_prod":50,
-       "type_prod":"MBO",
+       "type_prod":"BUILD",
+       "brand_prod":"ASUS"
+    },
+    {
+       "id_prod":4,
+       "img_prod":"",
+       "name_prod":"RED DRAGON",
+       "description_prod":"MBO para gaming con chipset B550, compatible con AMD Ryzen",
+       "price_prod":850.00,
+       "destacado":1,
+       "stock_prod":50,
+       "type_prod":"BUILD",
        "brand_prod":"ASUS"
     },
     {
        "id_prod":5,
+       "img_prod":"",
        "name_prod":"GIGABYTE Z690 AORUS PRO",
        "description_prod":"MBO para gaming con chipset Z690, compatible con Intel de 12ª generación",
        "price_prod":250.00,
@@ -21,6 +57,7 @@
     },
     {
        "id_prod":6,
+       "img_prod":"",
        "name_prod":"MSI B450 TOMAHAWK MAX II",
        "description_prod":"MBO ATX con chipset B450, compatible con AMD Ryzen",
        "price_prod":120.00,
@@ -31,6 +68,7 @@
     },
     {
        "id_prod":7,
+       "img_prod":"",
        "name_prod":"Corsair Vengeance LPX 16GB (2x8GB) DDR4",
        "description_prod":"RAM de alto rendimiento, 3200MHz",
        "price_prod":80.00,
@@ -41,6 +79,7 @@
     },
     {
        "id_prod":8,
+       "img_prod":"",
        "name_prod":"G.Skill Trident Z RGB 32GB (2x16GB) DDR4",
        "description_prod":"RAM con iluminación RGB, 3600MHz",
        "price_prod":180.00,
@@ -51,6 +90,7 @@
     },
     {
        "id_prod":9,
+       "img_prod":"",
        "name_prod":"Kingston HyperX Fury 16GB (2x8GB) DDR4",
        "description_prod":"RAM de alta velocidad, 3200MHz",
        "price_prod":75.00,
@@ -61,6 +101,7 @@
     },
     {
        "id_prod":10,
+       "img_prod":"",
        "name_prod":"NVIDIA GeForce RTX 3080 10GB",
        "description_prod":"GPU de alto rendimiento para gaming y productividad",
        "price_prod":800.00,
@@ -71,6 +112,7 @@
     },
     {
        "id_prod":11,
+       "img_prod":"",
        "name_prod":"AMD Radeon RX 6800 XT 16GB",
        "description_prod":"GPU de alto rendimiento para gaming y creatividad",
        "price_prod":700.00,
@@ -81,6 +123,7 @@
     },
     {
        "id_prod":12,
+       "img_prod":"",
        "name_prod":"ASUS TUF Gaming GeForce GTX 1660 SUPER 6GB",
        "description_prod":"GPU para gaming con buen rendimiento y precio accesible",
        "price_prod":300.00,
@@ -91,6 +134,7 @@
     },
     {
        "id_prod":13,
+       "img_prod":"",
        "name_prod":"NZXT H510 Elite",
        "description_prod":"CASE de PC con panel frontal y lateral de vidrio templado",
        "price_prod":150.00,
@@ -101,6 +145,7 @@
     },
     {
        "id_prod":14,
+       "img_prod":"",
        "name_prod":"Corsair 4000D Airflow",
        "description_prod":"CASE de PC con diseño de alto flujo de aire",
        "price_prod":100.00,
@@ -111,6 +156,7 @@
     },
     {
        "id_prod":15,
+       "img_prod":"",
        "name_prod":"Cooler Master MasterBox Q300L",
        "description_prod":"CASE compacta de PC con excelente ventilación",
        "price_prod":60.00,
@@ -121,6 +167,7 @@
     },
     {
        "id_prod":16,
+       "img_prod":"",
        "name_prod":"EVGA SuperNOVA 750 G5",
        "description_prod":"PSU de 750W con certificación 80 Plus Gold",
        "price_prod":120.00,
@@ -131,6 +178,7 @@
     },
     {
        "id_prod":17,
+       "img_prod":"",
        "name_prod":"Corsair RM850x",
        "description_prod":"PSU modular de 850W con certificación 80 Plus Gold",
        "price_prod":140.00,
@@ -141,6 +189,7 @@
     },
     {
        "id_prod":18,
+       "img_prod":"",
        "name_prod":"Seasonic Focus GX-650",
        "description_prod":"PSU de 650W con certificación 80 Plus Gold",
        "price_prod":110.00,
@@ -151,6 +200,7 @@
     },
     {
        "id_prod":19,
+       "img_prod":"",
        "name_prod":"Samsung 970 EVO Plus 1TB",
        "description_prod":"SSD NVMe de alta velocidad con capacidad de 1TB",
        "price_prod":150.00,
@@ -161,6 +211,7 @@
     },
     {
        "id_prod":20,
+       "img_prod":"",
        "name_prod":"Western Digital Blue SN550 500GB",
        "description_prod":"SSD NVMe de alto rendimiento con capacidad de 500GB",
        "price_prod":60.00,
@@ -171,6 +222,7 @@
     },
     {
        "id_prod":21,
+       "img_prod":"",
        "name_prod":"Crucial MX500 1TB",
        "description_prod":"SSD SATA de alto rendimiento con capacidad de 1TB",
        "price_prod":100.00,
@@ -181,6 +233,7 @@
     },
     {
        "id_prod":22,
+       "img_prod":"",
        "name_prod":"Intel Core i9 11900K 8C/16H",
        "description_prod":"Procesador de alto rendimiento para gaming y productividad",
        "price_prod":450.00,
@@ -191,6 +244,7 @@
     },
     {
        "id_prod":23,
+       "img_prod":"",
        "name_prod":"AMD Ryzen 9 5900X 12C/24H",
        "description_prod":"Procesador de alto rendimiento para gaming y tareas intensivas",
        "price_prod":500.00,
@@ -201,6 +255,7 @@
     },
     {
        "id_prod":24,
+       "img_prod":"",
        "name_prod":"GIGABYTE A520M S2H",
        "description_prod":"MBO económica con chipset A520, compatible con AMD Ryzen",
        "price_prod":60.00,
@@ -211,6 +266,7 @@
     },
     {
        "id_prod":25,
+       "img_prod":"",
        "name_prod":"Corsair Dominator Platinum RGB 32GB (2x16GB) DDR4",
        "description_prod":"RAM de alta gama con iluminación RGB, 3200MHz",
        "price_prod":200.00,
@@ -221,6 +277,7 @@
     },
     {
        "id_prod":26,
+       "img_prod":"",
        "name_prod":"MSI MAG B550 TOMAHAWK",
        "description_prod":"MBO con chipset B550, compatible con AMD Ryzen",
        "price_prod":150.00,
@@ -231,6 +288,7 @@
     },
     {
        "id_prod":27,
+       "img_prod":"",
        "name_prod":"HyperX Predator 16GB (2x8GB) DDR4",
        "description_prod":"RAM de alta velocidad, 3200MHz",
        "price_prod":90.00,
@@ -241,6 +299,7 @@
     },
     {
        "id_prod":28,
+       "img_prod":"",
        "name_prod":"MSI GeForce RTX 3070 8GB",
        "description_prod":"GPU de alto rendimiento para gaming y productividad",
        "price_prod":700.00,
@@ -251,6 +310,7 @@
     },
     {
        "id_prod":29,
+       "img_prod":"",
        "name_prod":"GIGABYTE GeForce GTX 1650 OC 4GB",
        "description_prod":"GPU de entrada con buen rendimiento para gaming",
        "price_prod":200.00,
@@ -261,6 +321,7 @@
     },
     {
        "id_prod":30,
+       "img_prod":"",
        "name_prod":"Thermaltake Versa H18",
        "description_prod":"CASE compacta de PC con buena ventilación",
        "price_prod":50.00,
@@ -271,6 +332,7 @@
     },
     {
        "id_prod":31,
+       "img_prod":"",
        "name_prod":"Fractal Design Meshify C",
        "description_prod":"CASE de PC con panel frontal de malla para mejor ventilación",
        "price_prod":90.00,
@@ -281,6 +343,7 @@
     },
     {
        "id_prod":32,
+       "img_prod":"",
        "name_prod":"Be Quiet! Straight Power 11 750W",
        "description_prod":"PSU silenciosa de 750W con certificación 80 Plus Gold",
        "price_prod":130.00,
@@ -291,6 +354,7 @@
     },
     {
        "id_prod":33,
+       "img_prod":"",
        "name_prod":"ADATA XPG SX8200 Pro 1TB",
        "description_prod":"SSD NVMe de alto rendimiento con capacidad de 1TB",
        "price_prod":140.00,
@@ -301,6 +365,7 @@
     },
     {
       "id_prod":34,
+      "img_prod":"",
       "name_prod":"ADATA XPG SX8200 Pro 1TB",
       "description_prod":"SSD NVMe de alto rendimiento con capacidad de 1TB",
       "price_prod":140.00,
