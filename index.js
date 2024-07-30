@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import bcrypt from "bcrypt"
+import bcrypt from "bcryptjs"
 import { connection } from './utils/database.js';
 import { PORT , SECRET_KEY } from './utils/config.js';
 import jwt from 'jsonwebtoken';
@@ -63,7 +63,8 @@ app.post("/api/register", async(req,res)=>{
       return res.status(401).json({error: "Usuario o Email ya existentes"})
   }
     // Encriptado de la contraseña e ingreso en la base de datos
-  const passHash =  bcrypt.hashSync(pass,10)
+  const salt = await bcrypt.genSalt(10)
+  const passHash =  await bcrypt.hash(pass,salt)
   connection.query('INSERT INTO users(user,pass,email,rol) VALUES (?,?,?,?)',[user,passHash,email,rol])
   res.status(200).json({mensaje: "Usuario ingresado con éxito"})
   } catch {
