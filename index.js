@@ -1,10 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import bcrypt from "bcryptjs"
-import jwt from 'jsonwebtoken';
-import cookieParser from 'cookie-parser';
 import { pool } from './utils/database.js';
 import { PORT , SECRET_KEY } from './utils/config.js';
+import jwt from 'jsonwebtoken';
+import cookieParser from 'cookie-parser';
 import data from './utils/items.json' assert { type: 'json' };
 import gamerBuilds from './utils/gamerBuilds.json' assert { type: 'json' };
 
@@ -88,9 +88,9 @@ app.post('/api/login', async (req, res) => {
     // Verificacion si es un usuario existente
     const {rows} = await pool.query('SELECT * FROM users WHERE "user" = $1', [user]);
     if (rows.length>0){
-      const isValid = await bcrypt.compare(pass,result[0].pass)
+      const isValid = await bcrypt.compare(pass,rows[0].pass)
       if (isValid) {
-        const token = jwt.sign({user_id:result[0].id ,user: result[0].user, rol: result[0].rol}, SECRET_KEY, {expiresIn:'1h'})
+        const token = jwt.sign({user_id:rows[0].id ,user: rows[0].user, rol: rows[0].rol}, SECRET_KEY, {expiresIn:'1h'})
         res.cookie('token',token,{
           httpOnly: true,
           sameSite: 'strict'
