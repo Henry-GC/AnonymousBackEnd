@@ -1,10 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import bcrypt from "bcryptjs"
-import { pool } from './utils/database.js';
-import { PORT , SECRET_KEY } from './utils/config.js';
 import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
+import { pool } from './utils/database.js';
+import { PORT , SECRET_KEY } from './utils/config.js';
 import data from './utils/items.json' assert { type: 'json' };
 import gamerBuilds from './utils/gamerBuilds.json' assert { type: 'json' };
 
@@ -57,15 +57,19 @@ app.post("/api/register", async(req,res)=>{
 
   try {
     // Verificacion si ya existe usuario o email
-  const [response] = await pool.query('SELECT * FROM users')
-  const filter = response.filter((usuario)=> usuario.user === user || usuario.email === email)
-  if (filter.length > 0) {
-      return res.status(401).json({error: "Usuario o Email ya existentes"})
-  }
+   const { rows } = await pool.query(
+      'SELECT * FROM users WHERE "user" = $1 OR email = $2',
+      [user, email]
+    );
+
+    if (rows.length > 0) {
+      return res.status(401).json({ error: "Usuario o Email ya existentes" });
+    }
+
     // Encriptado de la contraseña e ingreso en la base de datos
   const salt = await bcrypt.genSalt(10)
   const passHash =  await bcrypt.hash(pass,salt)
-  pool.query('INSERT INTO users(user,pass,email,rol) VALUES (?,?,?,?)',[user,passHash,email,rol])
+  await pool.query('INSERT INTO users("user", pass, email, rol) VALUES ($1, $2, $3, $4)',[user, passHash, email, rol]);
   res.status(200).json({mensaje: "Usuario ingresado con éxito"})
   } catch {
       res.status(500).json({error: "FALLO EN LA BASE DE DATOS"})
@@ -77,29 +81,29 @@ app.post('/api/login', async (req, res) => {
 
   const { user, pass } = req.body;
   if (!user || !pass) {
-    return res.status(400).json({ message: "Usuario y contraseña son requeridos" });
+    return res.status(400).json({error: "Usuario y contraseña son requeridos"});
   }
 
   try {
     // Verificacion si es un usuario existente
-    const [result] = await pool.query("SELECT * FROM users WHERE user = ?", [user]);
-    if (result.length>0){
+    const {rows} = await pool.query('SELECT * FROM users WHERE "user" = $1', [user]);
+    if (rows.length>0){
       const isValid = await bcrypt.compare(pass,result[0].pass)
       if (isValid) {
         const token = jwt.sign({user_id:result[0].id ,user: result[0].user, rol: result[0].rol}, SECRET_KEY, {expiresIn:'1h'})
         res.cookie('token',token,{
           httpOnly: true,
           sameSite: 'strict'
-        }).status(200).json({ message: "Inicio de sesión exitoso" ,token});
+        }).status(200).json({mensaje: "Inicio de sesión exitoso" ,token});
       } else {
-        res.status(401).json({ message: "Contraseña incorrecta" });
+        res.status(401).json({error: "Contraseña incorrecta" });
       }
     } else {
-      res.status(401).json({mensaje: "Usuario no existe"})
+      res.status(401).json({error: "Usuario no existe"})
     }
   } catch (error) {
     console.error("Error al realizar la consulta:", error);
-    res.status(500).json({ message: "Error interno del servidor" });
+    res.status(500).json({error: "Error interno del servidor" });
   }
 });
 
