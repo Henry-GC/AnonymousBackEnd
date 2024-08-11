@@ -5,8 +5,8 @@ import { pool } from './utils/database.js';
 import { PORT , SECRET_KEY } from './utils/config.js';
 import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
-import data from './utils/items.json' assert { type: 'json' };
 import gamerBuilds from './utils/gamerBuilds.json' assert { type: 'json' };
+import wishlist from './utils/wishList.json' assert { type: 'json' };
 
 const app = express ()
 const allowedOrigins = ["https://anonymouspc.netlify.app", "http://localhost:3000"];
@@ -14,6 +14,21 @@ const allowedOrigins = ["https://anonymouspc.netlify.app", "http://localhost:300
 app.use(cors({origin: allowedOrigins, credentials: true}));
 app.use(express.json());
 app.use(cookieParser())
+
+// MIDLEWARE DE AUTENTIFICACIÓN
+const verifyToken = (req,res,next) =>{
+  const token = req.cookies.token;
+  if (!token){
+    return res.status(401).json({error: "Token no existente"})
+  }
+  try {
+    const user = jwt.verify(token,SECRET_KEY)
+    req.user = user
+    next();
+  } catch (error) {
+    return res.status(401).json({error: "El token no es valido "})
+  }
+}
 
 // PRUEBA
 app.get("/api/prueba", async (req, res) => {
@@ -38,8 +53,8 @@ app.get('/api/gamerBuilds', async (req, res) => {
 
 app.get('/api/productos', async (req, res) => {
   try {
-    // const [result] = await pool.query("SELECT * FROM products");
-    res.status(200).json(data);
+    const {rows} = await pool.query("SELECT * FROM products");
+    res.status(200).json(rows);
   } catch (error) {
     res.status(500).json({ error: error });
   }
@@ -123,6 +138,149 @@ app.get('/api/logout', async (req, res) => {
       console.error("Error al cerrar sesión:", error);
       res.status(500).json({ mensaje: "Error interno del servidor" });
     }
+  }
+});
+
+/*---------------------------------------------------------------PROTECTED---------------------------------------------------------------------*/
+//COMPRAR
+app.post('/api/user/createorder', async(req,res)=>{
+  const token = req.cookies.token
+
+  //COMPRA USUARIO SIN REGISTRAR
+  if (!token) {
+    const {total,details} = req.body
+    console.log(total,details);
+    res.status(201).json({message: 'Compra de usuario no registrado'})
+  } else {
+
+  //COMPRA PARA REGISTRADOS
+  try {
+    const {total,details} = req.body
+    const {user_id} = jwt.verify(token,SECRET_KEY)
+    const queryCreateOrder = `INSERT INTO orders(user_id,state,total) VALUES ($1,$2,$3) RETURNING id;`
+    const valuesCreateOrder = [user_id,'PENDIENTE',total]
+    
+    //INICIO DE TRANSACCION SQL
+    await pool.query('BEGIN')
+    const {rows} = await pool.query(queryCreateOrder,valuesCreateOrder)
+    const order_id = rows[0].id
+    const queryCreateDetails = `INSERT INTO order_detail(order_id,product_id,count,price_unit,total) VALUES ($1,$2,$3,$4,$5) RETURNING id`
+    for (const detail of details) {
+      const {prod_id,count,price,total} = detail
+      await pool.query(queryCreateDetails,[order_id,prod_id,count,price,total])
+    }
+    await pool.query('COMMIT')
+    console.log('Compra realizada con exito. ORDEN N° ',order_id);
+    
+    res.status(201).json({message: 'Nueva orden creada',order_id})
+  } catch (error) {
+    await pool.query('ROLLBACK')
+    console.error(error);
+    res.status(500).json({error: 'Ha habido fallos en la base de datos'})
+  }}
+})
+
+//DATOS DEL USUARIO PARA DASHBOARD, PEDIDOS, WISHLIST
+app.get('/api/user', async(req,res)=>{
+  const user_id = 1
+  try {
+  const userResponse = await pool.query('SELECT * FROM users WHERE "id" = $1',[user_id]);
+  const ordersResponse = await pool.query('SELECT * FROM orders WHERE "user_id" = $1',[user_id]);
+  const detailResponse = await pool.query(
+    `SELECT od.*, p.name as product_name
+    FROM order_detail od
+    JOIN orders o ON od.order_id = o.id
+    JOIN products p ON od.product_id = p.id
+    WHERE o.user_id = $1`,
+    [user_id]
+  );
+  const wishlistResponse = await pool.query(
+    `SELECT p.*
+    FROM products p
+    JOIN wishlist w ON p.id = w.product_id
+    WHERE w.user_id = $1`,
+    [user_id]
+  );
+
+  if (userResponse.rowCount === 0) {
+    return res.status(404).json({error: 'Usuario no encontrado'})
+  }
+
+  const user = {
+    name: userResponse.rows[0].user,
+    orders: ordersResponse.rows,
+    order_detail: detailResponse.rows,
+    wishlist: wishlistResponse.rows
+  }
+
+    res.status(200).json({message: 'Datos del usuario',user: user})
+  } catch (error) {
+    console.error("Error al enviar datos del usuario",error)
+    res.status(500).json({error: "Error al enviar datos del usuario"})
+  }
+});
+
+//CANCELAR PEDIDOS
+app.post('/api/user/cancel-orders', async(req,res)=>{
+  const {order_id} = req.body;
+
+  try {
+    await pool.query(
+      'UPDATE orders SET "state" = $1 WHERE "id" = $2',
+      ['CANCELADO',order_id]
+    );
+    res.status(200).json({message: "PEDIDO CANCELADO",order_id})
+  } catch (error) {
+    console.error("Error al cancelar pedidos",error);
+    res.status(500).json({ error: "Error al cancelar pedidos" })
+  }
+})
+
+//AGREGAR PRODUCTO A FAVORITOS
+app.post('/api/user/add-favorite', async (req, res) => {
+  const user_id = 1;
+  const { prod_id } = req.body;
+
+  try {
+    await pool.query(
+      'INSERT INTO wishlist(user_id,product_id) VALUES ($1,$2)',
+      [user_id, prod_id]
+    );
+    res.status(200).json({
+      message: "PRODUCTO AGREGADO A FAVORITOS",
+      user_id,
+      prod_id
+    });
+  } catch (error) {
+    console.error('Error al agregar a favoritos:', error);
+    res.status(500).json({ error: "Error al agregar a favoritos" });
+  }
+});
+
+
+//ELIMINAR PRODUCTO FAVORITO
+app.post('/api/user/delete-favorite', async (req, res) => {
+  const user_id = 1;
+  const { prod_id } = req.body;
+
+  try {
+    await pool.query(
+      'DELETE FROM wishlist WHERE "user_id" = $1 AND "product_id" = $2',
+      [user_id, prod_id]
+    );
+    res.status(200).json({ message: "PRODUCTO ELIMINADO DE FAVORITOS", prod_id });
+  } catch (error) {
+    console.error('Error al eliminar de favoritos:', error);
+    res.status(500).json({ error: "Error al eliminar de favoritos" });
+  }
+});
+
+//WISHLIST
+app.get('/api/user/wishlist',(req,res)=>{
+  try {
+    res.status(200).json(wishlist)
+  } catch (error) {
+    res.status(404).json({error: "Usuario no tiene articulos en la wishlist"})
   }
 });
 
