@@ -63,33 +63,62 @@ app.get('/api/productos', async (req, res) => {
 /*----------------------------------- USUARIOS ---------------------------------------*/
 
 // REGISTRO DE USUARIO
-app.post("/api/register", async(req,res)=>{
-
-  const {user,pass,email,rol} = req.body
-  if(!user || !pass || !email || !rol){
-      return res.status(400).json({error: "Datos incompletos"})
+app.post("/api/register", async(req, res) => {
+  const { user, pass, email } = req.body;
+  if (!user || !pass || !email) {
+    return res.status(400).json({ error: "Datos incompletos" });
   }
 
   try {
-    // Verificacion si ya existe usuario o email
-   const { rows } = await pool.query(
-      'SELECT * FROM users WHERE "user" = $1 OR email = $2',
+    // Verificación si ya existe usuario o email
+    const { rows: existingUsers } = await pool.query(
+      'SELECT * FROM users WHERE username = $1 OR email = $2',
       [user, email]
     );
 
-    if (rows.length > 0) {
+    if (existingUsers.length > 0) {
       return res.status(401).json({ error: "Usuario o Email ya existentes" });
     }
 
     // Encriptado de la contraseña e ingreso en la base de datos
-  const salt = await bcrypt.genSalt(10)
-  const passHash =  await bcrypt.hash(pass,salt)
-  await pool.query('INSERT INTO users("user", pass, email, rol) VALUES ($1, $2, $3, $4)',[user, passHash, email, rol]);
-  res.status(200).json({mensaje: "Usuario ingresado con éxito"})
-  } catch {
-      res.status(500).json({error: "FALLO EN LA BASE DE DATOS"})
+    const salt = await bcrypt.genSalt(10);
+    const passHash = await bcrypt.hash(pass, salt);
+
+    // Iniciar una transacción para asegurar todas las inserciones
+    await pool.query('BEGIN');
+
+    // Crear el usuario
+    const { rows: userRows } = await pool.query(
+      'INSERT INTO users(username, pass, email, rol) VALUES ($1, $2, $3, $4) RETURNING id',
+      [user, passHash, email, 'CUSTOMER']
+    );
+    
+    const userId = userRows[0].id;
+
+    // Crear una nueva fila en user_profiles con campos nulos o vacíos
+    await pool.query(
+      'INSERT INTO user_profiles(user_id, first_name, last_name, nickname, birth_date, phone) VALUES ($1, NULL, NULL, NULL, NULL, NULL)',
+      [userId]
+    );
+
+    // Crear una nueva dirección por defecto con campos nulos
+    await pool.query(
+      'INSERT INTO addresses(user_id, street, city, province, reference, is_default) VALUES ($1, NULL, NULL, NULL, NULL, TRUE)',
+      [userId]
+    );
+
+    // Confirmar la transacción
+    await pool.query('COMMIT');
+
+    res.status(200).json({ mensaje: "Usuario, perfil y dirección creados con éxito" });
+  } catch (error) {
+    await pool.query('ROLLBACK');
+    console.error("Error al registrar usuario, perfil y dirección:", error);
+    res.status(500).json({ error: "Fallo en la base de datos" });
   }
-})
+});
+
+
 
 // INGRESO DE USUARIO
 app.post('/api/login', async (req, res) => {
@@ -101,11 +130,11 @@ app.post('/api/login', async (req, res) => {
 
   try {
     // Verificacion si es un usuario existente
-    const {rows} = await pool.query('SELECT * FROM users WHERE "user" = $1', [user]);
+    const {rows} = await pool.query('SELECT * FROM users WHERE username = $1', [user]);
     if (rows.length>0){
       const isValid = await bcrypt.compare(pass,rows[0].pass)
       if (isValid) {
-        const token = jwt.sign({user_id:rows[0].id ,user: rows[0].user, rol: rows[0].rol}, SECRET_KEY, {expiresIn:'1h'})
+        const token = jwt.sign({user_id:rows[0].id ,username: rows[0].username, rol: rows[0].rol}, SECRET_KEY, {expiresIn:'1h'})
         res.cookie('token',token,{
           httpOnly: true,
           sameSite: 'strict'
@@ -157,7 +186,7 @@ app.post('/api/user/createorder', async(req,res)=>{
   try {
     const {total,details} = req.body
     const {user_id} = jwt.verify(token,SECRET_KEY)
-    const queryCreateOrder = `INSERT INTO orders(user_id,state,total) VALUES ($1,$2,$3) RETURNING id;`
+    const queryCreateOrder = `INSERT INTO orders(user_id,state,total_price) VALUES ($1,$2,$3) RETURNING id;`
     const valuesCreateOrder = [user_id,'PENDIENTE',total]
     
     //INICIO DE TRANSACCION SQL
@@ -184,7 +213,13 @@ app.post('/api/user/createorder', async(req,res)=>{
 app.get('/api/user', async(req,res)=>{
   const user_id = 1
   try {
-  const userResponse = await pool.query('SELECT * FROM users WHERE "id" = $1',[user_id]);
+  const userResponse = await pool.query(
+    `SELECT u.*, up.first_name, up.last_name, up.nickname, up.birth_date, up.phone
+      FROM users u
+      LEFT JOIN user_profiles up ON u.id = up.user_id
+      WHERE u.id = $1`,
+    [user_id]
+  );
   const ordersResponse = await pool.query('SELECT * FROM orders WHERE "user_id" = $1',[user_id]);
   const detailResponse = await pool.query(
     `SELECT od.*, p.name as product_name
@@ -201,16 +236,21 @@ app.get('/api/user', async(req,res)=>{
     WHERE w.user_id = $1`,
     [user_id]
   );
+  const addressesResponse = await pool.query(
+    `SELECT * FROM addresses WHERE user_id = $1`,
+    [user_id]
+  );
 
   if (userResponse.rowCount === 0) {
     return res.status(404).json({error: 'Usuario no encontrado'})
   }
 
   const user = {
-    name: userResponse.rows[0].user,
+    userData: userResponse.rows[0],
     orders: ordersResponse.rows,
     order_detail: detailResponse.rows,
-    wishlist: wishlistResponse.rows
+    wishlist: wishlistResponse.rows,
+    addresses: addressesResponse.rows
   }
 
     res.status(200).json({message: 'Datos del usuario',user: user})
@@ -219,6 +259,63 @@ app.get('/api/user', async(req,res)=>{
     res.status(500).json({error: "Error al enviar datos del usuario"})
   }
 });
+
+//MODIFICAR DATOS DEL USUARIO
+app.post("/api/user/profile/data", async (req, res) => {
+  const { name, lastname, nickname, birthdate, phone } = req.body;
+  const user_id  = 1;
+
+  try {
+    // Actualizar los campos en la tabla user_profiles para el user_id
+    await pool.query(
+      `UPDATE user_profiles SET 
+        first_name = $1, 
+        last_name = $2, 
+        nickname = $3, 
+        birth_date = $4, 
+        phone = $5 
+      WHERE user_id = $6`,
+      [name || "", lastname || "", nickname || "", birthdate || null, phone || "", user_id]
+    );
+
+    res.status(200).json({ message: "Perfil actualizado con éxito" });
+  } catch (error) {
+    console.error("Error al actualizar el perfil del usuario:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+});
+
+// INGRESO DE DIRECCIONES
+app.post('/api/user/address', async (req, res) => {
+  const { street, city, province, reference, is_default } = req.body;
+  const user_id = 1;
+
+  if (!street || !city || !province) {
+    return res.status(400).json({ error: "Datos incompletos" });
+  }
+
+  try {
+    // Si se establece una dirección como predeterminada, cambiar el estado de is_default de las demás direcciones del usuario a falso
+    if (is_default) {
+      await pool.query(
+        'UPDATE addresses SET is_default = FALSE WHERE user_id = $1',
+        [user_id]
+      );
+    }
+
+    // Insertar la nueva dirección
+    const { rows } = await pool.query(
+      'INSERT INTO addresses (user_id, street, city, province, reference, is_default) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
+      [user_id, street, city, province, reference, is_default]
+    );
+
+    res.status(201).json({ message: "Dirección añadida exitosamente", address_id: rows[0].id });
+  } catch (error) {
+    console.error("Error al agregar dirección:", error);
+    res.status(500).json({ error: "Fallo en la base de datos" });
+  }
+});
+
 
 //CANCELAR PEDIDOS
 app.post('/api/user/cancel-orders', async(req,res)=>{

@@ -1,0 +1,263 @@
+[
+   {
+     "id": 1,
+     "img_url": "",
+     "name": "WAR HORSE",
+     "description": "MBO para gaming con chipset B550, compatible con AMD Ryzen",
+     "price": 600.00,
+     "relevant": 1,
+     "stock": 50,
+     "category_id": "BUILD"
+   },
+   {
+     "id": 2,
+     "img_url": "",
+     "name": "SOUL REAPER",
+     "description": "MBO para gaming con chipset B550, compatible con AMD Ryzen",
+     "price": 600.00,
+     "relevant": 1,
+     "stock": 50,
+     "category_id": "BUILD"
+   },
+   {
+     "id": 3,
+     "img_url": "",
+     "name": "NIGHT FURY",
+     "description": "MBO para gaming con chipset B550, compatible con AMD Ryzen",
+     "price": 750.00,
+     "relevant": 1,
+     "stock": 50,
+     "category_id": "BUILD"
+   },
+   {
+     "id": 4,
+     "img_url": "",
+     "name": "RED DRAGON",
+     "description": "MBO para gaming con chipset B550, compatible con AMD Ryzen",
+     "price": 850.00,
+     "relevant": 1,
+     "stock": 50,
+     "category_id": "BUILD"
+   },
+   {
+     "id": 5,
+     "img_url": "",
+     "name": "GIGABYTE Z690 AORUS PRO",
+     "description": "MBO para gaming con chipset Z690, compatible con Intel de 12ª generación",
+     "price": 250.00,
+     "relevant": 0,
+     "stock": 30,
+     "category_id": "MBO"
+   },
+   {
+     "id": 6,
+     "img_url": "",
+     "name": "MSI B450 TOMAHAWK MAX II",
+     "description": "MBO ATX con chipset B450, compatible con AMD Ryzen",
+     "price": 120.00,
+     "relevant": 1,
+     "stock": 75,
+     "category_id": "MBO"
+   },
+   {
+     "id": 7,
+     "img_url": "",
+     "name": "Corsair Vengeance LPX 16GB (2x8GB) DDR4",
+     "description": "RAM de alto rendimiento, 3200MHz",
+     "price": 80.00,
+     "relevant": 0,
+     "stock": 100,
+     "category_id": "RAM"
+   },
+   {
+     "id": 8,
+     "img_url": "",
+     "name": "G.Skill Trident Z RGB 32GB (2x16GB) DDR4",
+     "description": "RAM con iluminación RGB, 3600MHz",
+     "price": 180.00,
+     "relevant": 1,
+     "stock": 60,
+     "category_id": "RAM"
+   },
+   {
+     "id": 9,
+     "img_url": "",
+     "name": "Kingston HyperX Fury 16GB (2x8GB) DDR4",
+     "description": "RAM de alta velocidad, 3200MHz",
+     "price": 75.00,
+     "relevant": 0,
+     "stock": 80,
+     "category_id": "RAM"
+   },
+   {
+     "id": 10,
+     "img_url": "",
+     "name": "NVIDIA GeForce RTX 3080 10GB",
+     "description": "GPU de alto rendimiento para gaming y productividad",
+     "price": 800.00,
+     "relevant": 1,
+     "stock": 25,
+     "category_id": "GPU"
+   },
+   {
+     "id": 11,
+     "img_url": "",
+     "name": "AMD Radeon RX 6800 XT 16GB",
+     "description": "GPU de alto rendimiento para gaming y creatividad",
+     "price": 700.00,
+     "relevant": 0,
+     "stock": 30,
+     "category_id": "GPU"
+   },
+   {
+     "id": 12,
+     "img_url": "",
+     "name": "ASUS TUF Gaming GeForce GTX 1660 SUPER 6GB",
+     "description": "GPU para gaming con buen rendimiento y precio accesible",
+     "price": 300.00,
+     "relevant": 1,
+     "stock": 40,
+     "category_id": "GPU"
+   },
+   {
+     "id": 13,
+     "img_url": "",
+     "name": "NZXT H510 Elite",
+     "description": "CASE de PC con panel frontal y lateral de vidrio templado",
+     "price": 150.00,
+     "relevant": 1,
+     "stock": 45,
+     "category_id": "CASE"
+   },
+   {
+     "id": 14,
+     "img_url": "",
+     "name": "Corsair 4000D Airflow",
+     "description": "CASE de PC con diseño de alto flujo de aire",
+     "price": 100.00,
+     "relevant": 0,
+     "stock": 50,
+     "category_id": "CASE"
+   },
+   {
+     "id": 15,
+     "img_url": "",
+     "name": "Cooler Master MasterBox Q300L",
+     "description": "CASE compacta de PC con excelente ventilación",
+     "price": 60.00,
+     "relevant": 1,
+     "stock": 80,
+     "category_id": "CASE"
+   },
+   {
+     "id": 16,
+     "img_url": "",
+     "name": "EVGA SuperNOVA 750 G5",
+     "description": "PSU de 750W con certificación 80 Plus Gold",
+     "price": 120.00,
+     "relevant": 1,
+     "stock": 70,
+     "category_id": "PSU"
+   },
+   {
+     "id": 17,
+     "img_url": "",
+     "name": "Corsair RM850x",
+     "description": "PSU modular de 850W con certificación 80 Plus Gold",
+     "price": 140.00,
+     "relevant": 0,
+     "stock": 60,
+     "category_id": "PSU"
+   },
+   {
+     "id": 18,
+     "img_url": "",
+     "name": "Seasonic Focus GX-650",
+     "description": "PSU de 650W con certificación 80 Plus Gold",
+     "price": 110.00,
+     "relevant": 1,
+     "stock": 65,
+     "category_id": "PSU"
+   },
+   {
+     "id": 19,
+     "img_url": "",
+     "name": "Samsung 970 EVO Plus 1TB",
+     "description": "SSD NVMe de alta velocidad con capacidad de 1TB",
+     "price": 150.00,
+     "relevant": 1,
+     "stock": 90,
+     "category_id": "SSD"
+   },
+   {
+     "id": 20,
+     "img_url": "",
+     "name": "Western Digital Blue SN550 500GB",
+     "description": "SSD NVMe de alto rendimiento con capacidad de 500GB",
+     "price": 60.00,
+     "relevant": 0,
+     "stock": 120,
+     "category_id": "SSD"
+   },
+   {
+     "id": 21,
+     "img_url": "",
+     "name": "Crucial MX500 1TB",
+     "description": "SSD SATA de alto rendimiento con capacidad de 1TB",
+     "price": 100.00,
+     "relevant": 1,
+     "stock": 85,
+     "category_id": "SSD"
+   },
+   {
+     "id": 22,
+     "img_url": "",
+     "name": "Intel Core i9 11900K 8C/16H",
+     "description": "Procesador de alto rendimiento para gaming y productividad",
+     "price": 450.00,
+     "relevant": 1,
+     "stock": 50,
+     "category_id": "CPU"
+   },
+   {
+     "id": 23,
+     "img_url": "",
+     "name": "AMD Ryzen 9 5900X 12C/24H",
+     "description": "Procesador de alto rendimiento para gaming y tareas intensivas",
+     "price": 500.00,
+     "relevant": 0,
+     "stock": 45,
+     "category_id": "CPU"
+   },
+   {
+     "id": 24,
+     "img_url": "",
+     "name": "GIGABYTE A520M S2H",
+     "description": "MBO económica con chipset A520, compatible con AMD Ryzen",
+     "price": 60.00,
+     "relevant": 1,
+     "stock": 75,
+     "category_id": "MBO"
+   },
+   {
+     "id": 25,
+     "img_url": "",
+     "name": "Corsair Dominator Platinum RGB 32GB (2x16GB) DDR4",
+     "description": "RAM de alta gama con iluminación RGB, 3200MHz",
+     "price": 200.00,
+     "relevant": 1,
+     "stock": 40,
+     "category_id": "RAM"
+   },
+   {
+     "id": 26,
+     "img_url": "",
+     "name": "ASUS ROG Strix B550-F Gaming",
+     "description": "MBO ATX para gaming con chipset B550, compatible con AMD Ryzen",
+     "price": 180.00,
+     "relevant": 1,
+     "stock": 60,
+     "category_id": "MBO"
+   }
+ ]
+ 
