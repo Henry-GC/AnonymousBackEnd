@@ -13,11 +13,15 @@ export async function loginUser (user,pass,res) {
             const refreshToken = jwt.sign({user_id:rows[0].id ,username: rows[0].username, rol: rows[0].rol}, SECRET_REFRESH_KEY)
             res.cookie('token',token,{
                 httpOnly: true,
-                sameSite: 'strict'
+                sameSite: 'none',
+                secure: true,
+                maxAge: 2400 * 60 * 60 * 1000
             });
             res.cookie('refreshToken', refreshToken,{
                 httpOnly: true,
-                sameSite: 'strict'
+                sameSite: 'none',
+                secure: true,
+                maxAge: 2400 * 60 * 60 * 1000
             })
             res.status(200).json({mensaje: "Inicio de sesión exitoso" ,token});
             } else {

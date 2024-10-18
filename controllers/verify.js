@@ -26,7 +26,9 @@ export class verify {
         );
         res.cookie('token', newToken, {
           httpOnly: true,
-          sameSite: 'strict'
+          sameSite: 'strict',
+          secure: true,
+          maxAge: 2400 * 60 * 60 * 1000
         });
         req.user = user;
         next();

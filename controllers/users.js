@@ -29,12 +29,14 @@ export class users {
         res.clearCookie('token', {
             httpOnly: true,
             sameSite: 'strict',
-            // secure: true
+            secure: true,
+            maxAge: 2400 * 60 * 60 * 1000
         });
         res.clearCookie('refreshToken', {
             httpOnly: true,
             sameSite: 'strict',
-            // secure: true
+            secure: true,
+            maxAge: 2400 * 60 * 60 * 1000
         });
         res.status(200).json({ mensaje: "Ha cerrado sesión exitosamente" });
     }
