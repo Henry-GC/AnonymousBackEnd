@@ -1,7 +1,7 @@
 import { pool } from '../../utils/database.js'
 import jwt from 'jsonwebtoken'
 
-export async function createOrderUser(total,details,res) {
+export async function createOrderUser(token,total,details,res) {
     try {
         const {user_id} = jwt.verify(token,SECRET_KEY)
         const queryCreateOrder = `INSERT INTO orders(user_id,state,total_price) VALUES ($1,$2,$3) RETURNING id;`
