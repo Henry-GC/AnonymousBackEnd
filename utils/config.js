@@ -5,6 +5,7 @@ export const PORT = process.env.PORT || 5000;
 export const CORS_URL = process.env.CORS
 
 export const SECRET_KEY = process.env.SECRET_KEY
+export const SECRET_REFRESH_KEY = process.env.SECRET_REFRESH_KEY
 
 export const DB_HOST = process.env.POSTGRES_HOST
 export const DB_USER = process.env.POSTGRES_USER
