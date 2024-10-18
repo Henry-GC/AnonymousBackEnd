@@ -1,5 +1,6 @@
 import { pool } from '../../utils/database.js'
 import jwt from 'jsonwebtoken'
+import { SECRET_KEY } from '../../utils/config.js'
 
 export async function createOrderUser(token,total,details,res) {
     try {
