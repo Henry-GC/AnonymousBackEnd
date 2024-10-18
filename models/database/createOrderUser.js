@@ -17,8 +17,7 @@ export async function createOrderUser(token,total,details,res) {
             const {prod_id,count,price,total} = detail
             await pool.query(queryCreateDetails,[order_id,prod_id,count,price,total])
         }
-        console.log('Compra realizada con exito. ORDEN N° ',order_id);
-
+        return order_id
     } catch (error) {
         await pool.query('ROLLBACK')
         console.error(error);
