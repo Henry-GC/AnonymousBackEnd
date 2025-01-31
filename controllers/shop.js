@@ -7,7 +7,7 @@ export class shop {
         //COMPRA USUARIO SIN REGISTRAR
         if (!token) {
             console.log(total,details);
-            res.status(201).json({message: 'Compra de usuario no registrado'})
+            return res.status(201).json({message: 'Compra de usuario no registrado'})
         }
         const order_id = await createOrderUser(token,total,details,res)
         res.status(201).json({message: 'Nueva orden creada', order_id})
