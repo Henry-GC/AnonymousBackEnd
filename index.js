@@ -7,7 +7,7 @@ import { PORT } from './utils/config.js';
 import { pool } from './utils/database.js';
 
 const app = express ()
-const allowedOrigins = ["https://anonymouspc.netlify.app", "https://anonymouspc.pages.dev", "http://localhost:3000"];
+const allowedOrigins = ["https://anonymouspc.net", "https://anonymouspc.pages.dev", "http://localhost:3000"];
 
 app.use(cors({origin: allowedOrigins, credentials: true}));
 app.use(express.json());
