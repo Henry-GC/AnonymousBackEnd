@@ -5,6 +5,7 @@ import userRoutes from './routes/usersRoutes.js'
 import productsRoutes from './routes/productsRoutes.js'
 import { PORT } from './utils/config.js';
 import { pool } from './utils/database.js';
+import authGoogle from './routes/authGoogle.js';
 
 const app = express ()
 const allowedOrigins = ["https://anonymouspc.net", "https://anonymouspc.pages.dev", "http://localhost:3000"];
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(cookieParser())
 app.use('/api', userRoutes)
 app.use('/api', productsRoutes)
+app.use('/auth', authGoogle)
 
 // PRUEBA
 app.get("/", async (req, res) => {
