@@ -1,8 +1,14 @@
 // import gamerBuilds from '../utils/gamerBuilds.json' assert { type: 'json'}
 import { pool } from '../utils/database.js';
 import fs from 'fs';
+import path from 'path';
 
-const gamerBuilds = JSON.parse(fs.readFileSync('./utils/gamerBuilds.json', 'utf-8'));
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
+const gamerBuilds = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, '../utils/gamerBuilds.json'), 'utf-8')
+);
+
 
 export class products {
     static async buildsData (req, res) {
