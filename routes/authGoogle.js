@@ -1,6 +1,7 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import passport from '../utils/passport.js';
+import { SECRET_KEY, SECRET_REFRESH_KEY } from '../utils/config.js';
 
 const router = express.Router();
 
@@ -18,13 +19,13 @@ router.get('/google/callback',
     // Crea el token JWT
     const token = jwt.sign(
       { user_id: user.id, email: user.email },
-      process.env.JWT_SECRET,
+      SECRET_KEY,
       { expiresIn: '2h' }
     );
 
     const refreshToken = jwt.sign(
       { user_id: user.id },
-      process.env.JWT_REFRESH,
+      SECRET_REFRESH_KEY,
       { expiresIn: '7d' }
     );
 
@@ -43,8 +44,8 @@ router.get('/google/callback',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    // Redirige al frontend
-    res.redirect('https://anonymouspc.net/'); // o a donde quieras
+    // Redirigir al frontend con los tokens como query params
+    res.redirect(`https://anonymouspc.net/oauth-callback?token=${token}`);
   }
 );
 

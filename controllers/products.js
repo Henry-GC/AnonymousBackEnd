@@ -1,5 +1,8 @@
-import gamerBuilds from '../utils/gamerBuilds.json' assert { type: 'json'}
+// import gamerBuilds from '../utils/gamerBuilds.json' assert { type: 'json'}
 import { pool } from '../utils/database.js';
+import fs from 'fs';
+
+const gamerBuilds = JSON.parse(fs.readFileSync('./utils/gamerBuilds.json', 'utf-8'));
 
 export class products {
     static async buildsData (req, res) {
