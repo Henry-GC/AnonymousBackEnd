@@ -24,7 +24,7 @@ router.get('/google/callback',
     );
 
     const refreshToken = jwt.sign(
-      { user_id: user.id },
+      { user_id: user.id, email: user.email },
       SECRET_REFRESH_KEY,
       { expiresIn: '7d' }
     );
@@ -45,7 +45,7 @@ router.get('/google/callback',
     });
 
     // Redirigir al frontend con los tokens como query params
-    res.redirect(`https://anonymouspc.net/oauth-callback?token=${token}`);
+    res.redirect(`http://localhost:3000/oauth-callback?token=${token}`);
   }
 );
 
