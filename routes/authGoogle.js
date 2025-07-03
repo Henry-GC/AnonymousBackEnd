@@ -45,7 +45,7 @@ router.get('/google/callback',
     });
 
     // Redirigir al frontend con los tokens como query params
-    res.redirect(`http://localhost:3000/oauth-callback?token=${token}`);
+    res.redirect(`https://anonymouspc.net/oauth-callback?token=${token}`);
   }
 );
 

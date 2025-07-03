@@ -3,7 +3,6 @@ import { admin } from "../controllers/admin.js"
 import { products } from "../controllers/products.js"
 import { verify } from "../controllers/verify.js"
 
-
 const router = express.Router()
 
 router.post('/create', admin.create)
