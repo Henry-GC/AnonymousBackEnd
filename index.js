@@ -9,30 +9,15 @@ import { PORT } from './utils/config.js';
 import { pool } from './utils/database.js';
 
 const app = express ()
-const allowedOrigins = [
-  "https://anonymouspc.net"
-  // "https://anonymouspc.pages.dev",
-  // "https://dashboard.anonymouspc.net",
-  // "http://localhost:3000"
-];
+// const allowedOrigins = [
+//   "https://anonymouspc.net"
+//   // "https://anonymouspc.pages.dev",
+//   // "https://dashboard.anonymouspc.net",
+//   // "http://localhost:3000"
+// ];
 
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (allowedOrigins.includes(origin) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Bloqueado por CORS'));
-    }
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-};
+app.use(cors({origin: "https://anonymouspc.net/", credentials: true}));
 
-app.use(cors(corsOptions));
-
-// app.use(cors({origin: allowedOrigins, credentials: true}));
-// app.options("*", cors({origin: allowedOrigins, credentials: true}));
 app.use(express.json());
 app.use(cookieParser())
 
