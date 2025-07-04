@@ -16,10 +16,27 @@ const allowedOrigins = [
   "http://localhost:3000"
 ];
 
-app.use(cors({origin: allowedOrigins, credentials: true}));
-app.options("*", cors({origin: allowedOrigins, credentials: true}));
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Bloqueado por CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions));
+
+// app.use(cors({origin: allowedOrigins, credentials: true}));
+// app.options("*", cors({origin: allowedOrigins, credentials: true}));
 app.use(express.json());
 app.use(cookieParser())
+
+
 app.use('/api', userRoutes)
 app.use('/api', productsRoutes)
 app.use('/adm', adminRoutes)
