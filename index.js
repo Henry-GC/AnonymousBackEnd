@@ -13,11 +13,11 @@ const allowedOrigins = [
   "https://anonymouspc.net",
   "https://anonymouspc.pages.dev",
   "https://dashboard.anonymouspc.net",
-  "https://dashboard.anonymouspc.net/*",
   "http://localhost:3000"
 ];
 
 app.use(cors({origin: allowedOrigins, credentials: true}));
+app.options("*", cors({origin: allowedOrigins, credentials: true}));
 app.use(express.json());
 app.use(cookieParser())
 app.use('/api', userRoutes)
