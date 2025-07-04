@@ -5,16 +5,11 @@ import userRoutes from './routes/usersRoutes.js'
 import productsRoutes from './routes/productsRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
 import authGoogle from './routes/authGoogle.js';
+import { allowedOrigins } from './utils/config.js';
 import { PORT } from './utils/config.js';
 import { pool } from './utils/database.js';
 
 const app = express ()
-const allowedOrigins = [
-  "https://anonymouspc.net",
-  "https://anonymouspc.pages.dev",
-  "https://dashboard.anonymouspc.net",
-  "http://localhost:3000"
-];
 
 app.use(cors({origin: allowedOrigins, credentials: true}));
 

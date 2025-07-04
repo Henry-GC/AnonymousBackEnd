@@ -2,7 +2,7 @@ import dotenv from "dotenv"
 dotenv.config();
 
 export const PORT = process.env.PORT || 5000;
-export const CORS_URL = process.env.CORS
+export const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || [];
 
 export const SECRET_KEY = process.env.SECRET_KEY
 export const SECRET_REFRESH_KEY = process.env.SECRET_REFRESH_KEY
