@@ -26,7 +26,7 @@ export class verify {
         );
         res.cookie('token', newToken, {
           httpOnly: true,
-          sameSite: 'strict',
+          sameSite: 'none',
           secure: true,
           maxAge: 2400 * 60 * 60 * 1000
         });
@@ -60,7 +60,7 @@ export class verify {
           );
           res.cookie('token', newToken, {
             httpOnly: true,
-            sameSite: 'strict',
+            sameSite: 'none',
             secure: true,
             maxAge: 2400 * 60 * 60 * 1000
           });
