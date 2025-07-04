@@ -7,7 +7,7 @@ const router = express.Router()
 
 router.post('/create', admin.create)
 router.post('/login', admin.login)
-router.post('/logout', verify.verifyTokenAdmin, admin.logout)
+router.get('/logout', verify.verifyTokenAdmin, admin.logout)
 router.post('/productos/create', products.createProduct)
 
 export default router
