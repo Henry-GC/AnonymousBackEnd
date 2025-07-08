@@ -31,12 +31,30 @@ export class products {
     }
 
     static async createProduct (req, res) {
-        
-        const { name, price, description, img_url, relevant, stock, category_id } = req.body;
+        // Espera un array de productos en req.body
+        const productos = Array.isArray(req.body) ? req.body : [req.body];
+        if (!productos.length) {
+            return res.status(400).json({ error: "No se recibieron productos para crear" });
+        }
+        // Construir los valores y placeholders para la consulta
+        const values = [];
+        const placeholders = productos.map((product, idx) => {
+            const baseIdx = idx * 7;
+            values.push(
+                product.name,
+                product.description,
+                product.price,
+                product.img_url,
+                product.relevant,
+                product.stock,
+                product.category_id
+            );
+            return `($${baseIdx + 1}, $${baseIdx + 2}, $${baseIdx + 3}, $${baseIdx + 4}, $${baseIdx + 5}, $${baseIdx + 6}, $${baseIdx + 7})`;
+        }).join(", ");
+        const query = `INSERT INTO products (name, description, price, img_url, relevant, stock, category_id) VALUES ${placeholders}`;
         try {
-            const query = "INSERT INTO products (name, description, price, img_url, relevant, stock, category_id) VALUES ($1, $2, $3, $4, $5, $6, $7)";
-            await pool.query(query, [name, description, price, img_url, relevant, stock, category_id]);
-            res.status(201).json({ message: "Producto creado exitosamente" });
+            await pool.query(query, values);
+            res.status(201).json({ message: `Se crearon ${productos.length} producto(s) exitosamente` });
         } catch (error) {
             res.status(500).json({ error: error });
         }
@@ -45,6 +63,7 @@ export class products {
     static async updateProduct (req, res) {
         const { id } = req.params;
         const { name, price, description, img_url, relevant, stock, category_id } = req.body;
+        console.log(req.body)
 
         try {
             const query = "UPDATE products SET name = $1, description = $2, price = $3, img_url = $4, relevant = $5, stock = $6, category_id = $7 WHERE id = $8";

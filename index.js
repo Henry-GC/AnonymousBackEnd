@@ -10,10 +10,10 @@ import { pool } from './utils/database.js';
 
 const app = express ()
 const allowedOrigins = [
-  "https://anonymouspc.net",
-  "https://anonymouspc.pages.dev",
-  "https://dashboard.anonymouspc.net",
-  "http://localhost:3000"
+  process.env.ALLOWED_ORIGIN1,
+  process.env.ALLOWED_ORIGIN2,
+  process.env.ALLOWED_ORIGIN3,
+  process.env.ALLOWED_ORIGIN4,
 ];
 
 app.use(cors({origin: allowedOrigins, credentials: true}));
