@@ -9,7 +9,7 @@ export async function loginUser (user,pass,res) {
         if (rows.length>0){
             const isValid = await bcryptjs.compare(pass,rows[0].pass)
             if (isValid) {
-            const token = jwt.sign({user_id:rows[0].id ,username: rows[0].username, rol: rows[0].rol}, SECRET_KEY, {expiresIn:'1h'})
+            const token = jwt.sign({user_id:rows[0].id ,username: rows[0].username, rol: rows[0].rol}, SECRET_KEY, {expiresIn:'24h'})
             const refreshToken = jwt.sign({user_id:rows[0].id ,username: rows[0].username, rol: rows[0].rol}, SECRET_REFRESH_KEY)
             res.cookie('token',token,{
                 httpOnly: true,

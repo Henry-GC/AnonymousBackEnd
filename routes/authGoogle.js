@@ -20,7 +20,7 @@ router.get('/google/callback',
     const token = jwt.sign(
       { user_id: user.id, email: user.email },
       SECRET_KEY,
-      { expiresIn: '2h' }
+      { expiresIn: '24h' }
     );
 
     const refreshToken = jwt.sign(

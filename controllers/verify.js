@@ -22,7 +22,7 @@ export class verify {
         const newToken = jwt.sign(
           { user_id: user.user_id, username: user.username, rol: user.rol },
           SECRET_KEY,
-          { expiresIn: '1h' }
+          { expiresIn: '24h' }
         );
         res.cookie('token', newToken, {
           httpOnly: true,
