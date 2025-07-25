@@ -12,10 +12,16 @@ export async function dataUser (user_id,res) {
         );
         const ordersResponse = await pool.query('SELECT * FROM orders WHERE "user_id" = $1',[user_id]);
         const detailResponse = await pool.query(
-            `SELECT od.*, p.name as product_name
+            `SELECT od.*, COALESCE(p.name, b.name) AS product_name,
+                CASE
+                    WHEN p.code IS NOT NULL THEN 'PRODUCTO'
+                    WHEN b.code IS NOT NULL THEN 'ENSAMBLE'
+                    ELSE 'unknown'
+                END AS product_type
             FROM order_detail od
             JOIN orders o ON od.order_id = o.id
-            JOIN products p ON od.product_id = p.id
+            LEFT JOIN products p ON od.product_id = p.code
+            LEFT JOIN builds b ON od.product_id = b.code
             WHERE o.user_id = $1`,
             [user_id]
         );

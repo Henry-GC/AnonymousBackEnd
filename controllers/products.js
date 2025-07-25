@@ -22,13 +22,15 @@ export class products {
                 b.price,
                 b.img_url,
                 b.relevant,
+                b.code,
                 bc.product_id,
                 bc.quantity,
-                p.name as product_name
+                p.name as product_name,
+                p.category_id
             FROM builds b
             LEFT JOIN builds_comp bc ON b.id = bc.build_id
             LEFT JOIN products p ON bc.product_id = p.id
-            ORDER BY b.id, bc.product_id
+            ORDER BY b.id, p.category_id, bc.product_id
           `);
 
           // Agrupar los componentes por build
@@ -45,6 +47,7 @@ export class products {
                 price: row.price,
                 img_url: row.img_url,
                 relevant: row.relevant,
+                code: row.code,
                 components: []
               });
             }
@@ -54,7 +57,8 @@ export class products {
               buildsMap.get(buildId).components.push({
                 product_id: row.product_id,
                 quantity: row.quantity,
-                product_name: row.product_name
+                product_name: row.product_name,
+                category_id: row.category_id
               });
             }
           });
@@ -82,27 +86,68 @@ export class products {
         if (!productos.length) {
             return res.status(400).json({ error: "No se recibieron productos para crear" });
         }
-        // Construir los valores y placeholders para la consulta
-        const values = [];
-        const placeholders = productos.map((product, idx) => {
-            const baseIdx = idx * 7;
-            values.push(
-                product.name,
-                product.description,
-                product.price,
-                product.img_url,
-                product.relevant,
-                product.stock,
-                product.category_id
-            );
-            return `($${baseIdx + 1}, $${baseIdx + 2}, $${baseIdx + 3}, $${baseIdx + 4}, $${baseIdx + 5}, $${baseIdx + 6}, $${baseIdx + 7})`;
-        }).join(", ");
-        const query = `INSERT INTO products (name, description, price, img_url, relevant, stock, category_id) VALUES ${placeholders}`;
+
         try {
-            await pool.query(query, values);
-            res.status(201).json({ message: `Se crearon ${productos.length} producto(s) exitosamente` });
+            await pool.query('BEGIN');
+            
+            let productosCreados = 0;
+            
+            // Procesar cada producto individualmente para generar su código
+            for (const product of productos) {
+                const { name, description, price, img_url, relevant, stock, category_id } = product;
+                
+                // Obtener información de la categoría
+                const categoryQuery = "SELECT name FROM category WHERE id = $1";
+                const { rows: categoryRows } = await pool.query(categoryQuery, [category_id]);
+                
+                if (categoryRows.length === 0) {
+                    await pool.query('ROLLBACK');
+                    return res.status(400).json({ error: `Categoría con ID ${category_id} no encontrada` });
+                }
+                
+                const categoryName = categoryRows[0].name;
+                
+                // Obtener el último código usado para esta categoría
+                const lastCodeQuery = `
+                    SELECT code 
+                    FROM products 
+                    WHERE category_id = $1 AND code IS NOT NULL AND code != ''
+                    ORDER BY code DESC 
+                    LIMIT 1
+                `;
+                const { rows: lastCodeResult } = await pool.query(lastCodeQuery, [category_id]);
+                
+                // Determinar el siguiente número
+                let nextNumber = 1;
+                if (lastCodeResult.length > 0) {
+                    const lastCode = lastCodeResult[0].code;
+                    const categoryPrefix = categoryName.toUpperCase();
+                    const numberPart = lastCode.replace(categoryPrefix, '');
+                    nextNumber = parseInt(numberPart) + 1;
+                }
+                
+                // Generar el código automático
+                const code = `${categoryName.toUpperCase()}${nextNumber.toString().padStart(3, '0')}`;
+                
+                // Insertar el producto con el código generado
+                const insertQuery = `
+                    INSERT INTO products (name, description, price, img_url, relevant, stock, category_id, code) 
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+                `;
+                await pool.query(insertQuery, [name, description, price, img_url, relevant, stock, category_id, code]);
+                
+                productosCreados++;
+            }
+            
+            await pool.query('COMMIT');
+            res.status(201).json({ 
+                message: `Se crearon ${productosCreados} producto(s) exitosamente con códigos automáticos` 
+            });
+            
         } catch (error) {
-            res.status(500).json({ error: error });
+            await pool.query('ROLLBACK');
+            console.error('Error al crear productos:', error);
+            res.status(500).json({ error: "Error al crear productos" });
         }
     }
 
@@ -136,21 +181,50 @@ export class products {
         const { name, description, price, img_url, relevant, components } = req.body;
 
         try {
-            const query = "INSERT INTO builds (name, description, price, img_url, relevant) VALUES ($1, $2, $3, $4, $5) RETURNING id";
-            const {rows} = await pool.query(query, [name, description, price, img_url, relevant]);
-            const buildId = rows[0].id;
-            const componentValues = components.map((component) => [
-                buildId,
-                component.product_id,
-                component.quantity
-            ]);
-            const componentQuery = "INSERT INTO builds_comp (build_id, product_id, quantity) VALUES ($1, $2, $3)";
-            for (const values of componentValues) {
-                await pool.query(componentQuery, values);
+            await pool.query('BEGIN');
+            
+            // Obtener el último código usado para builds
+            const lastCodeQuery = `
+                SELECT code 
+                FROM builds 
+                WHERE code IS NOT NULL AND code != ''
+                ORDER BY code DESC 
+                LIMIT 1
+            `;
+            const { rows: lastCodeResult } = await pool.query(lastCodeQuery);
+            
+            // Determinar el siguiente número
+            let nextNumber = 1;
+            if (lastCodeResult.length > 0) {
+                const lastCode = lastCodeResult[0].code;
+                const numberPart = lastCode.replace('BUILD', '');
+                nextNumber = parseInt(numberPart) + 1;
             }
-            res.status(201).json({ message: "Build creada exitosamente" });
+            
+            // Generar el código automático
+            const code = `BUILD${nextNumber.toString().padStart(3, '0')}`;
+            
+            // Insertar el build con el código generado
+            const query = "INSERT INTO builds (name, description, price, img_url, relevant, code) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id";
+            const {rows} = await pool.query(query, [name, description, price, img_url, relevant, code]);
+            const buildId = rows[0].id;
+            
+            // Insertar componentes
+            const componentQuery = "INSERT INTO builds_comp (build_id, product_id, quantity) VALUES ($1, $2, $3)";
+            for (const component of components) {
+                await pool.query(componentQuery, [buildId, component.product_id, component.quantity]);
+            }
+            
+            await pool.query('COMMIT');
+            res.status(201).json({ 
+                message: "Build creada exitosamente con código automático",
+                buildId: buildId,
+                code: code
+            });
         } catch (error) {
-            res.status(500).json({ error: error });
+            await pool.query('ROLLBACK');
+            console.error('Error al crear build:', error);
+            res.status(500).json({ error: "Error al crear build" });
         }
     }
 
