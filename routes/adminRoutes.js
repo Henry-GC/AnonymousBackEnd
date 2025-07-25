@@ -8,9 +8,15 @@ const router = express.Router()
 router.post('/create', verify.verifyTokenAdmin, admin.create)
 router.post('/admLogin', admin.login)
 router.get('/admLogout', verify.verifyTokenAdmin, admin.logout)
+
 router.get('/products', products.productsData)
 router.post('/products/create', verify.verifyTokenAdmin, products.createProduct)
 router.put('/products/update/:id', verify.verifyTokenAdmin, products.updateProduct)
 router.delete('/products/delete/:id', verify.verifyTokenAdmin, products.deleteProduct)
+
+router.get('/builds', products.buildsData)
+router.post('/builds/createBuild', verify.verifyTokenAdmin, products.createBuild)
+router.put('/builds/update/:id', verify.verifyTokenAdmin, products.updateBuild)
+router.delete('/builds/delete/:id', verify.verifyTokenAdmin, products.deleteBuild)
 
 export default router
